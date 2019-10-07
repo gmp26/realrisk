@@ -1,22 +1,22 @@
 {:paths ["db" "resources" "src"]
 
  :deps
- {org.clojure/clojure         {:mvn/version "1.10.0"}
-  coast-framework/coast.theta {:mvn/version "1.5.0"}
-  org.xerial/sqlite-jdbc      {:mvn/version "3.25.2"}}
+        {org.clojure/clojure         {:mvn/version "1.10.0"}
+         coast-framework/coast.theta {:mvn/version "1.5.0"}
+         org.xerial/sqlite-jdbc      {:mvn/version "3.25.2"}}
 
  :aliases
- {:test
-  {:extra-paths ["test"]
-   :main-opts   ["-m" "cognitect.test-runner"]
-   :extra-deps
-   {com.cognitect/test-runner {:git/url "https://github.com/cognitect-labs/test-runner.git"
-                               :sha "209b64504cb3bd3b99ecfec7937b358a879f55c1"}}}
+        {:test
+               {:extra-paths ["test"]
+                :main-opts   ["-m" "cognitect.test-runner"]
+                :extra-deps
+                             {com.cognitect/test-runner {:git/url "https://github.com/cognitect-labs/test-runner.git"
+                                                         :sha     "209b64504cb3bd3b99ecfec7937b358a879f55c1"}}}
 
-  :uberjar
-  {:main-opts  ["-m" "mach.pack.alpha.capsule"
-                "target/realrisk.jar"]
-   :extra-deps {pack/pack.alpha {:git/url "https://github.com/juxt/pack.alpha.git"
-                                 :sha     "2769a6224bfb938e777906ea311b3daf7d2220f5"}}}
+         :uberjar
+               {:main-opts  ["-m" "mach.pack.alpha.capsule"
+                             "target/realrisk.jar"]
+                :extra-deps {pack/pack.alpha {:git/url "https://github.com/juxt/pack.alpha.git"
+                                              :sha     "2769a6224bfb938e777906ea311b3daf7d2220f5"}}}
 
-  :repl {:extra-deps {nrepl {:mvn/version "0.6.0"}}}}}
+         :repl {:extra-deps {nrepl {:mvn/version "0.6.0"}}}}}

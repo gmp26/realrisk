@@ -13,7 +13,7 @@
 
 
 (defn link-to [url & body]
-  [:a {:href url :class "f6 link underline blue"}
+  [:a {:href url}
     body])
 
 
@@ -21,8 +21,8 @@
   ([am m s]
    (let [data (select-keys m [:data-confirm])
          form (select-keys am [:action :_method :method :class])]
-     (coast/form (merge {:class "dib ma0"} form)
-       [:input (merge data {:class "input-reset pointer link underline bn f6 br2 ma0 pa0 dib blue bg-transparent"
+     (coast/form (merge {:class "inline-block m-0"} form)
+       [:input (merge data {:class ""
                             :type "submit"
                             :value s})])))
   ([am s]
@@ -31,13 +31,13 @@
 
 (defn container [m & body]
   (let [mw (or (:mw m) 8)]
-    [:div {:class (str "pa4 w-100 center mw" mw)}
-     [:div {:class "overflow-auto"}
+    [:div {:class ""}
+     [:div {:class ""}
        body]]))
 
 
 (defn table [& body]
-  [:table {:class "f6 w-100" :cellspacing 0}
+  [:table {:class "" :cellspacing 0}
    body])
 
 
@@ -46,37 +46,37 @@
 
 
 (defn tbody [& body]
-  [:tbody {:class "lh-copy"} body])
+  [:tbody {:class ""} body])
 
 
 (defn tr [& body]
-  [:tr {:class "stripe-dark"}
+  [:tr {:class ""}
    body])
 
 
 (defn th
   ([s]
-   [:th {:class "fw6 tl pa3 bg-white"} s])
+   [:th {:class ""} s])
   ([]
    (th "")))
 
 
 (defn td [& body]
-  [:td {:class "pa3"} body])
+  [:td {:class ""} body])
 
 
 (defn submit [value]
-  [:input {:class "input-reset pointer dim ml3 db bn f6 br2 ph3 pv2 dib white bg-blue"
+  [:input {:class ""
            :type "submit"
            :value value}])
 
 
 (defn dt [s]
-  [:dt {:class "f6 b mt2"} s])
+  [:dt {:class ""} s])
 
 
 (defn dd [s]
-  [:dd {:class "ml0"} s])
+  [:dd {:class ""} s])
 
 
 (defn dl [& body]
@@ -89,21 +89,21 @@
   ([k m body]
    (form-for k m {} body))
   ([k m params body]
-   (coast/form-for k m (merge params {:class "pa4"})
-     [:div {:class "measure"}
+   (coast/form-for k m (merge params {:class ""})
+     [:div {:class ""}
       body])))
 
 
 (defn label [m s]
-  [:label (merge {:for s :class "f6 b db mb2"} m) s])
+  [:label (merge {:for s :class ""} m) s])
 
 
 (defn input [m]
-  [:input (merge {:class "input-reset ba b--black-20 pa2 mb2 db w-100 outline-0"} m)])
+  [:input (merge {:class ""} m)])
 
 
 (defn text-muted [s]
-  [:div {:class "f6 tc gray"}
+  [:div {:class ""}
    s])
 
 
@@ -118,5 +118,5 @@
 
 
 (defn tc [& body]
-  [:div {:class "tc"}
+  [:div {:class ""}
    body])
