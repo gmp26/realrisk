@@ -1,5 +1,6 @@
 (ns site.home
-  (:require [coast]))
+  (:require [coast]
+            [rum.core :as rum]))
 
 
 (defn real-risk-logo
@@ -8,30 +9,35 @@
                       :src "assets/rr-logo.svg"}])
 
 (defn winton-logo [req]
-  [:img.flex-initial.hidden.sm:block.mt-2.mb-2.h-20
-   {:alt "U of Cambridge Winton Centre for Risk and Evidence Communication"
-    :src "assets/Cambridge logo.svg"
-    }])
+  [:img.h-20 {:alt "U of Cambridge Winton Centre for Risk and Evidence Communication"
+              :src "assets/Cambridge logo.svg"}])
 
 (defn header [req]
-  [:header.w-full.flex.flex-wrap.items-center.justify-around.bg-gray-100.border-b-2.border-blue-500
+  [:header.z-50.fixed.w-full.flex.flex-wrap.items-center.justify-around.bg-gray-200.border-b-2.border-blue-500
    (real-risk-logo req)
-   (winton-logo req)
+   [:section.hidden.sm:block.mt-3.mb-3
+    (winton-logo req)]
    ])
 
 (defn footer [req]
-  [:img.flex-initial.hidden.sm:block.mt-2.mb-2.h-20
-   {:alt "U of Cambridge Winton Centre for Risk and Evidence Communication"
-    :src "assets/Cambridge logo.svg"
-    }])
+  [:section.fixed.block.sm:hidden.mt-3.mb-3.h-20
+   (winton-logo req)
+   ])
+
+(defn partial-page
+  [req id title]
+  [:div
+   (header req)
+   [:section {:id    (str "page" id)
+                    :style {:height "calc(100vh)"}}
+    [:div.h-20]
+    [:h1.text-blue-600.text-xl.font-semibold title]]])
 
 (defn page1 [req]
-  [:section#page1]
-  [:h1 "Getting started"])
+  (partial-page req 1 "Getting started"))
 
 (defn page2 [req]
-  [:section#page2
-   [:h1 "Research paper (optional)"]])
+  (partial-page req 2 "Research paper (optional)"))
 
 (defn page3 [req]
   [:section#page3
@@ -61,8 +67,9 @@
   [:section#page9
    [:h1 "Results"]])
 
-(defn main [req]
-  [:main. {:role "main"}
+(defn index [req]
+  [:main {:role "main"}
+   (header req)
    (page1 req)
    (page2 req)
    (page3 req)
@@ -72,8 +79,6 @@
    (page7 req)
    (page8 req)
    (page9 req)
-   ])
-
-
-(defn index [req]
-  (header req))
+   (footer req)
+   ]
+  )
