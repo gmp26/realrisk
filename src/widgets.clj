@@ -13,3 +13,17 @@
       [:button.text-gray-200.hover:text-white.bg-blue-500.hover:bg-blue-600.font-bold.py-2.px-4.rounded-r
        "next >"]]]
     ))
+
+#_(defn icomoon
+  ([name] (icomoon name 50))
+  ([name size]
+   [:span {:style {:font-size size}}
+    [(keyword (str "span.icon-RR-" name))]]))
+
+#_(defmacro ico-docs []
+  (icomoon "docs" 20))
+
+(rum/defc icon
+  ([name]
+   [:span {:class (str "icon-RR-" name )}])
+  )

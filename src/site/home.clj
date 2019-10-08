@@ -21,7 +21,7 @@
      ])
 
 (defn header [req]
-  [:header.z-50.pl-20.pr-20.fixed.w-full.flex.flex-wrap.items-center.justify-between.border-b-2.border-blue-500
+  [:header.z-50.bg-white.pl-20.pr-20.fixed.w-full.flex.flex-wrap.items-center.justify-between.border-b-2.border-blue-500
    (real-risk-logo req)
    [:section.hidden.sm:block.mt-3.mb-3
     (winton-logo req)]
@@ -36,19 +36,23 @@
 
 (defn page1
   [req]
-  [:main.text-grey-600
-   [:div.mb-10
+  [:main.leading-loose
+   [:div.mb-10.font-serif.text-xl
     [:p "Real Risk helps you to communicate the risks and benefits of scientific research effectively."]
     [:p "To use this tool you need"]
     [:ul
-     [:li "access to the original research paper"]
-     [:li "information about the study group and your audience"]
-     [:li "knowledge of risk or benefit before and after the intervention"]]]
-   [:button.bg-blue-500.hover:bg-blue-700.text-white.font-bold.py-2.px-4.mb-10.rounded "Get the real risk >"]])
+     [:li.flex.flex-row.items-center [:span.w-16.text-4xl (w/icon "docs")] [:span "access to the original research paper"]]
+     [:li.flex.flex-row.items-center [:span.w-16.text-4xl (w/icon "people")] "information about the study group and your audience"]
+     [:li.flex.flex-row.items-center [:span.w-16.text-4xl (w/icon "percent")] "knowledge of risk or benefit before and after the intervention"]]
+    [:button.bg-blue-500.hover:bg-blue-700.text-3xl.text-white.font-sans.py-0.px-4.mb-10.mt-10.rounded "Get the real risk >"]
+    [:p "It should take less than 5 minutes to get a summary of the risks associated with any intervention"]]])
 
 (defn page2
   [req]
-  [:main.text-grey-600 "Page 2 content"])
+  [:main.leading-loose
+   [:div.mb-10.font-serif.text-xl
+    [:p.flex.items-center [:span.w-16.text-4xl (w/icon "docs")] "Which research paper are you writing about?"]
+    ]])
 
 (defn page3
   [req]
@@ -78,26 +82,7 @@
   [req]
   [:main.text-grey-600 "Page 9 content"])
 
-
-#_(defn partial-page-gridded
-    [req]
-    (let [{title   :page-title
-           id      :page-id
-           content :page-content} req]
-      [:div
-       (header req)
-       [:section.bg-blue-100 {:id    (str "page" id)
-                              :style {:height "calc(100vh)"}}
-        [:div {:style {:display               "grid"
-                       :grid-template-columns " 1fr 10fr 5fr 1fr"}}
-         [:div.h-32]
-         [:div {:style {:grid-column-start 2 :grid-column-end 3}}
-          [:h1.text-blue-600.text-xl.font-semibold title]
-          (content req)
-          (w/bottom-nav req)]]
-        ]]))
-
-(defn partial-page
+#_(defn partial-page*
   [req]
   (let [{title   :page-title
          id      :page-id
@@ -106,7 +91,7 @@
      (header req)
      [:section.bg-blue-100.h-screen {:id    (str "page" id)}
 
-      [:div.h-full.pt-32
+      [:div.h-full.pt-32                                    ; adjust this for mobile
        [:div.flex.flex-row
         [:div {:key 1 :class "flex flex-col justify-between w-2/3 sm:px-20 ml-auto bg-red-200"}
          [:section [:h1.h-full.text-blue-600.text-4xl.font-semibold.border-solid title]
@@ -114,6 +99,24 @@
          [:section.mb-8 (w/bottom-nav req)]]
         [:div {:key 2 :class "w-1/3 px-2 sm:py 20 mr-auto bg-white"}
          [:h1 "Results"]]]]]]))
+
+(defn partial-page
+  [req]
+  (let [{title   :page-title
+         id      :page-id
+         content :page-content} req]
+    [:div.text-gray-700
+     (header req)
+     [:section.bg-blue-100.h-screen {:id    (str "page" id)}
+
+      [:div.h-full.pt-32                                    ; adjust this for mobile
+       [:div.flex.flex-row.h-full
+        [:div {:key 1 :class "flex flex-col justify-between w-2/3 sm:px-20 ml-auto"}
+         [:section [:h1.text-4xl.font-semibold.border-solid title]
+          (content req)]
+         [:section.mb-8 (w/bottom-nav req)]]
+        [:div {:key 2 :class "w-1/3 px-2 sm:py 20 mr-auto"}
+         [:h1.text-4xl.font-semibold.border-solid "Results"]]]]]]))
 
 (defn index [req]
   [:main {:role "main"}
