@@ -107,10 +107,9 @@
      [:section.bg-blue-100.h-screen {:id    (str "page" id)}
 
       [:div.h-full.pt-32
-       ;[:div.h-32]
-       [:div.flex.flex-row.h-full
-        [:div.flex.flex-col.justify-between {:key 1 :class "w-2/3 sm:px-20 ml-auto bg-red-200"}
-         [:section [:h1.h-full.text-blue-600.text-xl.font-semibold.border-solid title]
+       [:div.flex.flex-row
+        [:div {:key 1 :class "flex flex-col justify-between w-2/3 sm:px-20 ml-auto bg-red-200"}
+         [:section [:h1.h-full.text-blue-600.text-4xl.font-semibold.border-solid title]
           (content req)]
          [:section.mb-8 (w/bottom-nav req)]]
         [:div {:key 2 :class "w-1/3 px-2 sm:py 20 mr-auto bg-white"}
