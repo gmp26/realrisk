@@ -1,3 +1,18 @@
 @tailwind base;
 @tailwind components;
+
+
+.btn-blue {
+  @apply bg-dblue-500 text-white font-bold py-2 px-4 rounded;
+}
+.btn-blue:hover {
+  @apply bg-dblue-700;
+}
+
+
 @tailwind utilities;
+
+.smooth {
+  scroll-behavior: smooth;
+  overflow-y: scroll;
+}
