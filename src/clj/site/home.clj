@@ -11,7 +11,7 @@
                    :src "assets/rr-logo.svg"}])
 
 (defn winton-logo [req]
-  [:img.h-20.flex-none {:alt "U of Cambridge Winton Centre for Risk and Evidence Communication"
+  [:img.h-16.flex-none {:alt "U of Cambridge Winton Centre for Risk and Evidence Communication"
                         :src "assets/Cambridge logo.svg"}])
 
 (defn header [req]
@@ -24,13 +24,8 @@
 
 (defn footer [req]
   [:div
-   [:section.fixed.block.sm:hidden.mt-3.mb-3.h-20 (winton-logo req)]])
+   [:section.fixed.block.sm:hidden.mt-3.mb-3.h-16 (winton-logo req)]])
 
-(defn icon-text
-  [icon text]
-  [:span.flex.flex-row.items-center.w-full.h-12.sm:h-16
-   [:span.w-12.sm:w-16.text-xl.sm:text-4xl (w/icon icon)]
-   [:span.w-64.sm:w-full.inline-block.leading-snug.sm:leading-normal text]])
 
 (defn page1
   [req]
@@ -39,24 +34,29 @@
    [:p.mt-2 "To use this tool you need"]
    [:ul
     [:li.flex.flex-row.items-center
-     (icon-text "docs" "access to the original research paper")]
+     (w/icon-text "docs" "access to the original research paper")]
     [:li.flex.flex-row.items-center
-     (icon-text "people" "information about the study group and your audience")]
+     (w/icon-text "people" "information about the study group and your audience")]
     [:li.flex.flex-row.items-center
-     (icon-text "percent" "knowledge of risk or benefit before and after the intervention")]]
-   [:a {:href "/p2"} [:button.btn-blue.text-xl.sm:text-3xl.font-sans.py-0.mb-10.mt-10 "Get the real risk >"]]
+     (w/icon-text "percent" "knowledge of risk or benefit before and after the intervention")]]
+   [:a {:href "/p2"} [:button.btn-blue.text-xl.sm:text-3xl.font-sans.py-2.mb-10.mt-10 "Get the real risk >"]]
    [:p "It should take less than 5 minutes to get a summary of the risks associated with any intervention"]])
 
 (defn page2
   [req]
-  [:main.leading-loose
-   [:div.mb-10.font-serif
-    [:p.flex.items-center [:span.w-16.text-4xl (w/icon "docs") "Which research paper are you writing about?"]]]
-   [:form
-    [:label.font-bold {:for "paper-title"} "Research paper title"]
-    [:input#paper-title.p-4.border-4.block.w-full {:type        "text"
-                                                  :name        "paper-title"
-                                                  :placeholder "Research paper title"}]]
+  [:main.mt-6
+   [:div.font-serif.text-xl
+    (w/icon-text "docs" "Which research paper are you writing about?")
+    [:form.mt-6
+     (w/text-input {:id "paper-title" :title "Research paper title"
+                    :help "Please enter the full research paper title. This text goes on and on and on.
+                    Please enter the full research paper title. This text goes on and on and on.
+                    Please enter the full research paper title. This text goes on and on and on.
+                    Please enter the full research paper title. This text goes on and on and on."})
+     (w/text-input {:id   "doi" :title "Enter the DOI number of the paper"
+                    :help nil                               ;"The DOI is the globally unique Digital Object Identifier assigned to every paper."
+                    })]]
+
    ])
 
 (defn page3
@@ -93,9 +93,9 @@
   (let [{title   :page-title
          id      :page-id
          content :page-content} req]
-    [:div.text-gray-700.text-xl.m-1
+    [:div.text-gray-700.text-xl
      (header req)
-     [:section.bg-dblue-100.h-screen {:id (str "page" id)}
+     [:section.p-2.bg-dblue-100.h-screen {:id (str "page" id)}
       [:div.h-full.pt-16.sm:pt-32
        [:div.flex.flex-row.h-full
         [:div {:key 1 :class (str "relative flex flex-col justify-between sm:px-20 "
@@ -161,55 +161,55 @@
    (footer req)])
 
 (defn p1 [req]
-  [:mainh-screen.block {:role "main"}
+  [:main.h-screen.block {:role "main"}
    (header req)
    (partial-page (assoc req :page-id 1 :page-title "Getting started" :page-content page1))
    (footer req)])
 
 (defn p2 [req]
-  [:mainh-screen.block {:role "main"}
+  [:main.h-screen.block {:role "main"}
    (header req)
    (partial-page (assoc req :page-id 2 :page-title "Research paper (optional)" :page-content page2))
    (footer req)])
 
 (defn p3 [req]
-  [:mainh-screen.block {:role "main"}
+  [:main.h-screen.block {:role "main"}
    (header req)
    (partial-page (assoc req :page-id 3 :page-title "Study group" :page-content page3))
    (footer req)])
 
 (defn p4 [req]
-  [:mainh-screen.block {:role "main"}
+  [:main.h-screen.block {:role "main"}
    (header req)
    (partial-page (assoc req :page-id 4 :page-title "Condition" :page-content page4))
    (footer req)])
 
 (defn p5 [req]
-  [:mainh-screen.block {:role "main"}
+  [:main.h-screen.block {:role "main"}
    (header req)
    (partial-page (assoc req :page-id 5 :page-title "Intervention" :page-content page5))
    (footer req)])
 
 (defn p6 [req]
-  [:mainh-screen.block {:role "main"}
+  [:main.h-screen.block {:role "main"}
    (header req)
    (partial-page (assoc req :page-id 6 :page-title "General risk" :page-content page6))
    (footer req)])
 
 (defn p7 [req]
-  [:mainh-screen.block {:role "main"}
+  [:main.h-screen.block {:role "main"}
    (header req)
    (partial-page (assoc req :page-id 7 :page-title "Measure of change" :page-content page7))
    (footer req)])
 
 (defn p8 [req]
-  [:mainh-screen.block {:role "main"}
+  [:main.h-screen.block {:role "main"}
    (header req)
    (partial-page (assoc req :page-id 8 :page-title "Population (optional)" :page-content page8))
    (footer req)])
 
 (defn p9 [req]
-  [:mainh-screen.block {:role "main"}
+  [:main.h-screen.block {:role "main"}
    (header req)
    (partial-page (assoc req :page-id 9 :page-title "Results" :page-content page9))
    (footer req)])

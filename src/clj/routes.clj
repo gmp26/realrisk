@@ -8,8 +8,7 @@
     (coast/site
       (coast/with-layout
         components/layout
-        ;[:get "/" :site.home/index]
-        ;[:get "/:page" :site.home/page]
+        [:get "/" :site.home/p1]
         [:get "/p1" :site.home/p1]
         [:get "/p2" :site.home/p2]
         [:get "/p3" :site.home/p3]
@@ -23,4 +22,4 @@
 
     (coast/api
       (coast/with-prefix "/api"
-                         [:get "/" :api.home/index]))))
+        [:get "/" :api.home/index]))))
