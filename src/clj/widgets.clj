@@ -6,11 +6,11 @@
   [req]
   (let [id (:page-id req)]
     [:div.inline-flex.flex-none
-     [:a {:href (str "#page" (max (dec id) 1))}
-      [:button.btn-blue.mr-1
+     [:a {:href (str "/p" (max (dec id) 1))}
+      [:button.btn-blue.mr-1.sm:text-xl
        "< back"]]
-     [:a {:href (str "#page" (min (inc id) 9))}
-      [:button.btn-blue
+     [:a {:href (str "/p" (min (inc id) 9))}
+      [:button.btn-blue.sm:text-xl
        "next >"]]]
     ))
 

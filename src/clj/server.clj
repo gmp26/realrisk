@@ -1,7 +1,13 @@
 (ns server
   (:require [coast]
-            [routes])
+            [routes]
+            [clojure.pprint :refer [pprint]])
   (:gen-class))
+
+(defn print-wrapper [handler]
+  (fn [req]
+    (pprint req)
+    (handler req)))
 
 (def app (coast/app {:routes routes/routes}))
 
