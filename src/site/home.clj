@@ -101,8 +101,8 @@
          [:section {:style {:overflow-y "scroll"}} [:h1.text-4xl.font-semibold.border-solid title]
           (content req)]
          [:section.mb-4.flex.justify-end.sticky (w/bottom-nav req)]]
-        [:div {:key 2 :class "w-1/3 px-2 sm:py 20 mr-auto"}
-         [:h1.text-4xl.font-semibold.border-solid "Results"]]]]]]))
+        (when (>= id 3) [:div {:key 2 :class "w-1/3 px-2 sm:py 20 mr-auto"}
+                         [:h1.text-4xl.font-semibold.border-solid "Results"]])]]]]))
 
 (defn index [req]
   [:main.smooth.h-screen.block {:role "main"}
