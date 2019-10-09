@@ -26,16 +26,25 @@
   [:div
    [:section.fixed.block.sm:hidden.mt-3.mb-3.h-20 (winton-logo req)]])
 
+(defn icon-text
+  [icon text]
+  [:span.flex.flex-row.items-center.w-full.h-12.sm:h-16
+   [:span.w-12.sm:w-16.text-xl.sm:text-4xl (w/icon icon)]
+   [:span.w-64.sm:w-full.inline-block.leading-snug.sm:leading-normal text]])
+
 (defn page1
   [req]
-  [:main
+  [:main.mt-3
    [:p "Real Risk helps you to communicate the risks and benefits of scientific research effectively."]
-   [:p "To use this tool you need"]
+   [:p.mt-2 "To use this tool you need"]
    [:ul
-    [:li.flex.flex-row.items-center.flex-1 [:span.w-20.text-2xl.sm:text-4xl (w/icon "docs")] [:span.leading-snug.sm:leading-normal "access to the original research paper"]]
-    [:li.flex.flex-row.items-center [:span.w-20.text-2xl.sm:text-4xl (w/icon "people")] [:span.leading-snug.sm:leading-normal "information about the study group and your audience"]]
-    [:li.flex.flex-row.items-center [:span.w-20.text-2xl.sm:text-4xl (w/icon "percent")] [:span.leading-snug.sm:leading-normal "knowledge of risk or benefit before and after the intervention"]]]
-   [:a {:href "/p2"} [:button.btn-blue.text-3xl.font-sans.py-0.mb-10.mt-10 "Get the real risk >"]]
+    [:li.flex.flex-row.items-center
+     (icon-text "docs" "access to the original research paper")]
+    [:li.flex.flex-row.items-center
+     (icon-text "people" "information about the study group and your audience")]
+    [:li.flex.flex-row.items-center
+     (icon-text "percent" "knowledge of risk or benefit before and after the intervention")]]
+   [:a {:href "/p2"} [:button.btn-blue.text-xl.sm:text-3xl.font-sans.py-0.mb-10.mt-10 "Get the real risk >"]]
    [:p "It should take less than 5 minutes to get a summary of the risks associated with any intervention"]])
 
 (defn page2
