@@ -1,24 +1,26 @@
 ;; shadow-cljs configuration
 {:source-paths ["src"]
  :dependencies []
- :dev-http {8080 "target/"}
- :builds {:app {:output-dir "target/"
-                :asset-path "."
-                :target :browser
-                :modules {:main {:init-fn app.main/main!}}
-                :devtools {:after-load app.main/reload!}}}}
+ :dev-http     {8080 "target/"}
+ :builds       {:app {:output-dir "target/"
+                      :asset-path "."
+                      :target     :browser
+                      :modules    {:main {:init-fn org.winton.realrisk/init}}
+                      ;:modules {:main {:init-fn app.main/main!}}
+                      ;:devtools {:after-load app.main/reload!}
+                      }}}
 
 
 #_{:source-paths
-       ["src"]
+         ["src"]
 
- :deps true
+   :deps true
 
- :dependencies
-       [[rum "0.11.3"]]
+   :dependencies
+         [[rum "0.11.3"]]
 
- :builds
-       {:app {:target     :browser
-              :main       org.winton.realrisk.app/init
-              :output-dir "resources/public/shadowjs"
-              :asset-path "shadowjs"}}}
+   :builds
+         {:app {:target     :browser
+                :main       org.winton.realrisk.app/init
+                :output-dir "resources/public/shadowjs"
+                :asset-path "shadowjs"}}}
