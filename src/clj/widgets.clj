@@ -15,17 +15,20 @@
     ))
 
 (defn icon
+  "Returns hiccup code for one of he icomoon icons"
   ([name]
    [:span {:class (str "icon-RR-" name)}]))
 
 (defn icon-text
+  "An icon alongside a line or two of text"
   [icon-name text]
   [:span.flex.flex-row.items-center.w-full.h-12.sm:h-16
    [:span.w-12.sm:w-16.text-3xl.sm:text-4xl (icon icon-name)]
    [:span.w-64.sm:w-full.inline-block.leading-snug.sm:leading-normal text]])
 
 (defn text-input
-  [{:keys [id type title help]
+  "A labelled (titled) text input with help button and help text"
+  [{:keys [id type title help active?]
     :or   {id "" type "text" title "???" help nil}}]
   [:div.mb-4.relative
    (when help
