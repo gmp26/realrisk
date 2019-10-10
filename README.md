@@ -65,6 +65,9 @@ https://github.com/diamondap/ring-sample
 http://clojure-doc.org/articles/tutorials/basic_web_development.html
 https://www.anthony-galea.com/blog/post/getting-started-w
 
+### Configuring cursive and shadow together
+https://andrearichiardi.com/blog/posts/clojurescript-cursive-shadow-setup.html
+
 ### Window sizing and scrolling
 https://javascript.info/size-and-scroll-window
 

@@ -11684,10 +11684,12 @@ video {
   z-index: auto;
 }
 
+/* This gave us smooth scrolling on a single page version. Probably abandoning this idea.
 .smooth {
   scroll-behavior: smooth;
   overflow-y: scroll;
 }
+*/
 
 @media (min-width: 640px) {
   .sm\:sr-only {
@@ -55848,3 +55850,4 @@ video {
     z-index: auto;
   }
 }
+

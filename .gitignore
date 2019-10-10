@@ -13,5 +13,6 @@ pom.xml.asc
 *.iml
 .env
 .cpcache
-node-modules
-
+node_modules
+target
+.shadow-clja
