@@ -15,4 +15,4 @@ pom.xml.asc
 .cpcache
 node_modules
 target
-.shadow-clja
+.shadow-cljs
