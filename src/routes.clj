@@ -2,6 +2,30 @@
   (:require [coast]
             [components]))
 
+
+#_(defn wrap-layout
+  "Return the middleware that wraps the response with a layout function `layout`."
+  [handler layout]
+  (fn [request]
+    (let [response (handler request)]
+      (if (vector? response)
+        (-> (layout request response)
+          (h/html)
+          (#(str "<!DOCTYPE html>" %))
+          (res/ok :html))
+        response))))
+
+(defn rum-layout [request body]
+  [:html
+   [:head
+    [:meta {:name "viewport" :content "width=device-width, initial-scale=1"}]
+    (coast/css "bundle.css")
+    (coast/js "bundle.js")]
+   [:body
+    body]])
+
+
+
 (def routes
   (coast/routes
 

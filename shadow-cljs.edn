@@ -1,13 +1,12 @@
 ;; shadow-cljs configuration
 {:source-paths ["src"]
- :dependencies []
+ :dependencies [[rum "0.11.3"]]
  :dev-http     {8080 "target/"}
  :builds       {:app {:output-dir "target/"
                       :asset-path "."
                       :target     :browser
                       :modules    {:main {:init-fn org.winton.realrisk.app/init}}
-                      ;:modules {:main {:init-fn app.main/main!}}
-                      :devtools {:after-load app.main/reload!}
+                      ;:devtools {:after-load app.main/reload!}
                       }}}
 
 

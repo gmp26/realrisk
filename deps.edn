@@ -1,12 +1,29 @@
 {:paths ["db" "resources" "src"]
 
  :deps
-        {org.clojure/clojure         {:mvn/version "1.10.0"}
+        {org.clojure/clojure         {:mvn/version "1.10.1"}
          coast-framework/coast.theta {:mvn/version "1.5.0"}
          org.xerial/sqlite-jdbc      {:mvn/version "3.25.2"}
          rum                         {:mvn/version "0.11.3"}}
 
  :aliases
+        {:test
+               {:extra-paths ["test"]
+                :main-opts   ["-m" "cognitect.test-runner"]
+                :extra-deps
+                             {com.cognitect/test-runner {:git/url "git@github.com:cognitect-labs/test-runner"
+                                                         :sha     "5f2b5c2efb444df76fb5252102b33f542ebf7f58"}}}
+
+         :uberjar
+               {:main-opts  ["-m" "mach.pack.alpha.capsule"
+                             "target/hello-coast.jar"]
+                :extra-deps {pack/pack.alpha {:git/url "https://github.com/juxt/pack.alpha.git"
+                                              :sha     "2769a6224bfb938e777906ea311b3daf7d2220f5"}}}
+
+         :repl {:extra-deps {nrepl {:mvn/version "0.6.0"}}}}}
+
+; shadow-cljs experimental
+#_#_:aliases
      {:dev
       {:extra-deps {org.clojure/clojure {:mvn/version "1.10.1"}
                     org.clojure/clojurescript {:mvn/version "1.10.520"}
@@ -25,5 +42,5 @@
                                            :sha     "2769a6224bfb938e777906ea311b3daf7d2220f5"}}}
 
       :repl {:extra-deps {nrepl {:mvn/version "0.6.0"}}}
-      #_#_:cljs {:extra-deps {thheller/shadow-cljs {:mvn/version "2.8.62"}}}}}
+      :cljs {:extra-deps {thheller/shadow-cljs {:mvn/version "2.8.62"}}}}
 

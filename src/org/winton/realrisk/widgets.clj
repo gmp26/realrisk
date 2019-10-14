@@ -1,5 +1,4 @@
-(ns org.winton.realrisk.widgets
-  (:require [rum.core :as rum]))
+(ns org.winton.realrisk.widgets)
 
 (def svg-close-button
   "Not used yet, but see https://codeburst.io/creating-a-modal-dialog-with-tailwind-css-42722c9aea4f.
@@ -56,4 +55,5 @@
       :name        id
       :placeholder title}]
     (when help
-      [:button.m-2.p-1.btn-blue.text-white.font-sans.w-10.h-9.text-center.rounded-full.leading-snug.shadow-xl "?"])]])
+      [:button.m-2.p-1.btn-blue.text-white.font-sans.w-10.h-9.text-center.rounded-full.leading-snug.shadow-xl
+        "?"])]])

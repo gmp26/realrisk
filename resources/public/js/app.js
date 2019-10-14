@@ -1,4 +1,4 @@
-/*
+;; This code is part of coast
 document.addEventListener('DOMContentLoaded', function() {
   document.body.addEventListener("click", function(e) {
     var el = e.target;
@@ -13,4 +13,3 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 });
-*/
