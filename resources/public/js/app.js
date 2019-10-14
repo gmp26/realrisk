@@ -13,3 +13,16 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 });
+
+
+//const input = document.querySelector('input');
+const input = document.getElementById("paper-title");
+
+function logChange(e) {
+  console.log("Change!" + e.srcElement.value);
+};
+
+(if input {
+  input.addEventListener('change', logChange);
+}
+

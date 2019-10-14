@@ -40,7 +40,9 @@
   "A labelled (titled) text input with help button and help text"
   [{:keys [id type title help active?]
     :or   {id "" type "text" title "???" help nil active? nil}}]
+
   [:div.mb-4.relative
+   [:p (pr-str (str "***" id "-help") active?)]
    (when (and help active?)
      [:div.leading-snug
       [:button.z-20.p-3.pt-0.pb-0.font-sans.text-normal.text-gray-600.absolute.bg-yellow-200.top-0.right-0.text-center.rounded
@@ -50,10 +52,13 @@
       ])
    [:label.font-bold {:for id} title]
    [:div.flex.flex-row.items-center
-    [:input#paper-title.p-2.border-4.border-gray-500.block.w-full.font-sans.text-2xl
+    [:input.p-2.border-4.border-gray-500.block.w-full.font-sans.text-2xl
      {:type        type
       :name        id
+      :class       id
       :placeholder title}]
     (when help
       [:button.m-2.p-1.btn-blue.text-white.font-sans.w-10.h-9.text-center.rounded-full.leading-snug.shadow-xl
-        "?"])]])
+       {:name  (str id "-help")
+        :value (str (not active?))}
+       "?"])]])

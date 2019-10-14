@@ -31,7 +31,7 @@
 (rum/defc page1
   [req]
   [:main.mt-3
-   [:p (pr-str (:session req))]
+   [:p (pr-str (:paper-title (:params req)))]
 
    [:p "Real Risk helps you to communicate the risks and benefits of scientific research effectively."]
    [:p.mt-2 "To use this tool you need"]
@@ -47,19 +47,22 @@
 
 (defn page2
   [req]
-  (let [{:keys [active-paper active-doi]} (:session req)]
+  (let [{:keys [paper-title-help doi-help]} (:params req)]
+
+
+
     [:main.mt-6
      [:div.font-serif.text-xl
-      [:p (pr-str (:session req))]
-
+      [:p2 (pr-str (:params req) (type paper-title-help))]
       (w/icon-text "docs" "Which research paper are you writing about?")
       [:form.mt-6
-       (w/text-input {:id      "paper-title" :title "Research paper title"
-                      :help    "Please enter the full research paper title. This text goes on and on and on."
-                      :active? active-paper})
-       (w/text-input {:id      "doi" :title "Enter the DOI number of the paper"
-                      :help    "The DOI is the globally unique Digital Object Identifier assigned to every paper."
-                      :active? active-doi})]]
+       (w/text-input (assoc req :id "paper-title" :title "Research paper title"
+                                :help "Please enter the full research paper title. This text goes on and on and on."
+                                :active? paper-title-help
+                                ))
+       (w/text-input (assoc req :id "doi" :title "Enter the DOI number of the paper"
+                                :help "The DOI is the globally unique Digital Object Identifier assigned to every paper."
+                                :active? doi-help))]]
 
      ]))
 
