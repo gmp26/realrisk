@@ -48,14 +48,13 @@
 (defn page2
   [req]
   (let [{:keys [paper-title-help doi-help]} (:params req)]
-
-
-
     [:main.mt-6
      [:div.font-serif.text-xl
-      [:p2 (pr-str (:params req) (type paper-title-help))]
+      [:p2 (pr-str "req params" (:params req))]
       (w/icon-text "docs" "Which research paper are you writing about?")
       [:form.mt-6
+       {:action "/api/"
+        :method :_post}
        (w/text-input (assoc req :id "paper-title" :title "Research paper title"
                                 :help "Please enter the full research paper title. This text goes on and on and on."
                                 :active? paper-title-help
@@ -74,9 +73,7 @@
     [:form.mt-6
      (w/text-input {:id "paper-title" :title "population"
                     :help "Enter a short description, e.g.'men', or 'women over 50'"
-                    :active? false})
-     ]]
-   ])
+                    :active? false})]]])
 
 (defn page4
   [req]
@@ -101,7 +98,6 @@
 (defn page9
   [req]
   [:main.text-grey-600 "Page 9 content"])
-
 
 (defn results-box
   []
