@@ -66,13 +66,11 @@
                                    :label "Research paper title"
                                    :title (or paper-title (:paper-title session) "Research paper title")
                                    :help "Please enter the full research paper title. This text goes on and on and on."
-                                   :active? (:paper-title flash)
                                    ))
           (w/text-input (assoc request :id "doi"
                                        :label "Enter the DOI number of the paper"
                                        :title (or doi (:doi session) "Enter the DOI number of the paper")
-                                       :help "The DOI is the globally unique Digital Object Identifier assigned to every paper."
-                                       :active? (:doi flash)))
+                                       :help "The DOI is the globally unique Digital Object Identifier assigned to every paper."))
           )]
 
        ])))
@@ -83,9 +81,8 @@
    [:div.font-serif.text-xl
     (w/icon-text "people" "Which group or population is studied in this paper?")
     [:form.mt-6
-     (w/text-input {:id      "paper-title" :title "population"
-                    :help    "Enter a short description, e.g.'men', or 'women over 50'"
-                    :active? false})]]])
+     (w/text-input {:id   "population" :title "population"
+                    :help "Enter a short description, e.g.'men', or 'women over 50'"})]]])
 
 (defn page4
   [request]
@@ -185,7 +182,7 @@
    (partial-page (assoc request :page-id 9 :page-title "Results" :page-content page9))
    ])
 
-(defn saver
+#_(defn saver
   [request]
   (println "home.saver::: session" (:session request))
   (println "home.saver::: params" (:params request))
@@ -197,14 +194,27 @@
                                   :doi              (if (contains? params :doi)
                                                       (:doi params)
                                                       (:doi old))}))
+      (if help-id
+          (coast/flash {(keyword help-id) true}))
       )))
 
 
 
-(defn help
-  [{:keys [params] :as request}]
-  (let [help-id (:id params)]
-    (println "***HELP*** id = " help-id)
+(defn saver
+  [{:keys [params session] :as request}]
+
+  (println "home.saver::: params" (dissoc (:params request) :__anti-forgery-token ))
+
+  (let [help-id (:help params)]
+    (println "***SAVER*** id = " help-id)
     (-> (coast/redirect-to :p2)
-      (coast/flash {(keyword help-id) true})))
+      (assoc :session session)
+      (update :session (fn [old] {:paper-title      (if (contains? params :paper-title)
+                                                      (:paper-title params)
+                                                      (:paper-title old))
+                                  :doi              (if (contains? params :doi)
+                                                      (:doi params)
+                                                      (:doi old))}))
+      (assoc :flash help-id)))
   )
+

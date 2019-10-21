@@ -43,18 +43,22 @@
 
 (defn text-input
   "A labelled (titled) text input with help button and help text"
-  [{:keys [id label title help active?]
-    :or   {id "" label "label" title "???" help nil active? nil}}]
+  [{:keys [id label title help]
+    :or   {id "" label "label" title "???" help nil}}
+   ]
 
   [:div.mb-4.relative
-   [:p (pr-str (str "***" id "-help") active?)]
-   (when (and help active?)
-     [:div.leading-snug
-      [:button.z-20.p-3.pt-0.pb-0.font-sans.text-normal.text-gray-600.absolute.bg-yellow-200.top-0.right-0.text-center.rounded
-       "×"]
-      [:div.z-10.p-4.mt-6.font-sans.text-normal.text-gray-600.absolute.border-1.bg-yellow-200.h-32.overflow-scroll.top-0.right-0.rounded.shadow-lg
-       {:class "w-2/3 sm:w-1/2"} help]
-      ])
+   [:p (pr-str (str "***" id "-help"))]
+
+   [:div.leading-snug.overlay.flex.flex-col {:id id}
+    [:div.popup.mx-auto.my-auto.z-10.p-4.font-sans.text-normal.text-gray-600border-1.bg-yellow-200.h-32.overflow-scroll.rounded.shadow-lg
+     {:class "w-2/3 sm:w-1/2"}
+     [:a.z-20.p-3.pt-0.pb-0.font-sans.text-normal.text-gray-600.bg-yellow-200.top-0.right-0.text-center.rounded
+      {:href "#"}
+      "×"]
+     help
+     ]]
+
    [:label.font-bold {:for id} label]
    [:div.flex.flex-row.items-center
     [:input.p-2.border-4.border-gray-500.block.w-full.font-sans.text-2xl
@@ -63,10 +67,6 @@
       :class       id
       :placeholder title}]
     (when help
-      [:button.m-2.p-1.btn-blue.text-white.font-sans.w-10.h-9.text-center.rounded-full.leading-snug.shadow-xl
-       {:name       (str id "-help")
-        :formmethod "post"
-        :formaction (coast/url-for :routes/help {:id id})
-        :value      nil
-        }
+      [:a.m-2.p-1.btn-blue.text-white.font-sans.w-10.h-9.text-center.rounded-full.leading-snug.shadow-xl
+       {:href (str "#" id)}
        "?"])]])
