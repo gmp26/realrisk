@@ -48,10 +48,8 @@
    ]
 
   [:div.mb-4.relative
-   [:p (pr-str (str "***" id "-help"))]
-
-   [:div.leading-snug.overlay.flex.flex-col {:id id}
-    [:div.popup.mx-auto.my-auto.z-10.p-4.font-sans.text-normal.text-gray-600border-1.bg-yellow-200.h-32.overflow-scroll.rounded.shadow-lg
+   [:div.leading-snug.overlay.flex.flex-row.justify-end {:id id}
+    [:div.popup.z-10.p-4.font-sans.text-normal.text-gray-600.border-1.bg-yellow-200.h-32.overflow-scroll.rounded.shadow-lg
      {:class "w-2/3 sm:w-1/2"}
      [:a.z-20.p-3.pt-0.pb-0.font-sans.text-normal.text-gray-600.bg-yellow-200.top-0.right-0.text-center.rounded
       {:href "#"}
