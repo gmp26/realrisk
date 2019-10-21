@@ -1,4 +1,4 @@
-;; This code is part of coast
+// This code is part of coast
 document.addEventListener('DOMContentLoaded', function() {
   document.body.addEventListener("click", function(e) {
     var el = e.target;
@@ -22,7 +22,7 @@ function logChange(e) {
   console.log("Change!" + e.srcElement.value);
 };
 
-(if input {
+if (input != null) {
   input.addEventListener('change', logChange);
 }
 

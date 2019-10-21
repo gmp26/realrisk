@@ -1,0 +1,112 @@
+@font-face {
+  font-family: 'icomoon';
+  src:  url('fonts/icomoon.eot?q8zbwy');
+  src:  url('fonts/icomoon.eot?q8zbwy#iefix') format('embedded-opentype'),
+    url('fonts/icomoon.ttf?q8zbwy') format('truetype'),
+    url('fonts/icomoon.woff?q8zbwy') format('woff'),
+    url('fonts/icomoon.svg?q8zbwy#icomoon') format('svg');
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'icomoon' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-RR-docs:before {
+  content: "\e900";
+  color: #4078ef;
+}
+.icon-RR-people:before {
+  content: "\e901";
+  color: #4078ef;
+}
+.icon-RR-percent:before {
+  content: "\e902";
+  color: #4078ef;
+}
+.icon-RR-first-aid:before {
+  content: "\e903";
+  color: #4078ef;
+}
+.icon-RR-import:before {
+  content: "\e904";
+  color: #4078ef;
+}
+.icon-RR-pointer:before {
+  content: "\e905";
+}
+.icon-RR-stamp:before {
+  content: "\e906";
+  color: #4078ef;
+}
+.icon-RR-hash:before {
+  content: "\e907";
+  color: #4078ef;
+}
+.icon-RR-blueman:before {
+  content: "\e908";
+  color: #4078ef;
+}
+.icon-RR-qmark .path1:before {
+  content: "\e909";
+  color: rgb(64, 120, 239);
+}
+.icon-RR-qmark .path2:before {
+  content: "\e90a";
+  margin-left: -1em;
+  color: rgb(255, 255, 255);
+}
+.icon-RR-pencil .path1:before {
+  content: "\e90b";
+  color: rgb(64, 120, 239);
+}
+.icon-RR-pencil .path2:before {
+  content: "\e90c";
+  margin-left: -1em;
+  color: rgb(255, 255, 255);
+}
+.icon-RR-down:before {
+  content: "\e90d";
+}
+.icon-RR-chevron:before {
+  content: "\e90e";
+}
+.icon-RR-todo:before {
+  content: "\e90f";
+  color: #bdbcbc;
+}
+.icon-RR-download:before {
+  content: "\e910";
+}
+.icon-RR-email:before {
+  content: "\e911";
+}
+.icon-RR-blackman:before {
+  content: "\e912";
+}
+.icon-RR-empty:before {
+  content: "\e913";
+}
+.icon-RR-chart:before {
+  content: "\e914";
+}
+.icon-RR-graph:before {
+  content: "\e915";
+}
+.icon-RR-done:before {
+  content: "\e916";
+  color: #4078ef;
+}
