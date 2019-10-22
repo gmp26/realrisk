@@ -14,5 +14,13 @@ module.exports = {
     }
   },
   variants: {},
-  plugins: []
+  plugins: [
+               function({ addVariant, e }) {
+                 addVariant('target', ({ modifySelectors, separator }) => {
+                   modifySelectors(({ className }) => {
+                     return `.${e(`disabled${separator}${className}`)}:target`
+                   })
+                 })
+               }
+             ]
 }

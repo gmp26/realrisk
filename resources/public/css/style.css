@@ -113,16 +113,8 @@
 
 /* Pure CSS popup from https://codepen.io/sahil4test/pen/xERYvX */
 .overlay {
-/*
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  */
-  height: 0;
   background: rgba(0, 0, 0, 0.7);
-  transition: opacity 500ms;
+  transition: opacity 330ms;
   visibility: hidden;
   opacity: 0;
 }
@@ -132,7 +124,7 @@
 }
 
 .popup {
-  transition: all 5s ease-in-out;
+  transition: all 330ms ease-in-out;
 }
 
 .popup h2 {

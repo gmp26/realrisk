@@ -4,16 +4,16 @@
 
 
 #_(defn wrap-layout
-  "Return the middleware that wraps the response with a layout function `layout`."
-  [handler layout]
-  (fn [request]
-    (let [response (handler request)]
-      (if (vector? response)
-        (-> (layout request response)
-          (h/html)
-          (#(str "<!DOCTYPE html>" %))
-          (res/ok :html))
-        response))))
+    "Return the middleware that wraps the response with a layout function `layout`."
+    [handler layout]
+    (fn [request]
+      (let [response (handler request)]
+        (if (vector? response)
+          (-> (layout request response)
+              (h/html)
+              (#(str "<!DOCTYPE html>" %))
+              (res/ok :html))
+          response))))
 
 (defn rum-layout [request body]
   [:html
@@ -28,34 +28,44 @@
 
 (def routes
   (coast/routes
-
+    [:get "/" :site.home/reset]
     (coast/site
       (coast/with-layout
         components/layout
-        [:get "/" :site.home/p1]
-        [:get "/p1" :site.home/p1 :p1]
-        [:get "/p2" :site.home/p2 :p2]
-        [:get "/p3" :site.home/p3 :p3]
-        [:get "/p4" :site.home/p4]
-        [:get "/p5" :site.home/p5]
-        [:get "/p6" :site.home/p6]
-        [:get "/p7" :site.home/p7]
-        [:get "/p8" :site.home/p8]
-        [:get "/p9" :site.home/p9]
+        (conj
+          (into []
+                (map (fn [n]
+                       (let [pid (inc n)]
+                         [:get (str "/p" pid) (keyword (str "site.home/p" pid)) (keyword (str "p" pid))]))
+                     (range 9))))
 
-        [:post "/saver" :site.home/saver ::saver]
-        [:post "/help" :site.home/help ::help]
+        [:post "/saver" :site.home/saver ::saver ]
+        [:get "/p/:pid" :site.home/p]
 
 
-        [:get "/customers/build" :customer/build]
-        [:get "/customers/:customer-id" :customer/view]
-        [:post "/customers" :customer/create])
+        #_(comment
+            ; above code returns
+            [
+             [:get "/p1" :site.home/p1 :p1]
+             [:get "/p2" :site.home/p2 :p2]
+             [:get "/p3" :site.home/p3 :p3]
+             ; ...
+             [:get "/" :site.home/p1]
+             [:post "/saver/:pid" :site.home/saver ::saver]]
+            )
+
+        #_(comment
+            ; from coast session docs...
+            [:get "/customers/build" :customer/build]
+            [:get "/customers/:customer-id" :customer/view]
+            [:post "/customers" :customer/create])
+        )
 
       )
 
     (coast/api
       (coast/with-prefix "/api"
-        [:get "/" :api.home/index]
-        [:post "/" :api.home/index]
-        ;[:post "/p/:pid" :api.home/page :p]
-        ))))
+                         [:get "/" :api.home/index]
+                         [:post "/" :api.home/index]
+                         ;[:post "/p/:pid" :api.home/page :p]
+                         ))))

@@ -13,15 +13,21 @@
 
 (defn bottom-nav
   "Add a bottom paginator"
-  [req]
-  (let [id (:page-id req)]
+  [request]
+  (let [id (:page-id request)]
     [:div.inline-flex.flex-none
-     [:a {:href (str "/p" (max (dec id) 1))}
-      [:button.btn-blue.mr-1.sm:text-xl
-       "< back"]]
-     [:a {:href (str "/p" (min (inc id) 9))}
-      [:button.btn-blue.sm:text-xl
-       "next >"]]]
+     (let [target (max (dec id) 1)]
+       [:a {:href (str "/p" target)}
+        [:button.btn-blue.mr-1.sm:text-xl
+         {:name "back"
+          :value target}
+         "< back"]])
+     (let [target (min (inc id) 9)]
+       [:a {:href (str "/p" target)}
+        [:button.btn-blue.sm:text-xl
+         {:name "next"
+          :value target}
+         "next >"]])]
     ))
 
 (defn icon
@@ -36,25 +42,21 @@
    [:span.w-12.sm:w-16.text-3xl.sm:text-4xl (icon icon-name)]
    [:span.w-64.sm:w-full.inline-block.leading-snug.sm:leading-normal text]])
 
-(defn help-button
-  "Show help button. When pressed, it submits a true value, but the default value is false"
-  [{}]
-  )
-
 (defn text-input
   "A labelled (titled) text input with help button and help text"
   [{:keys [id label title help]
-    :or   {id "" label "label" title "???" help nil}}
-   ]
+    :or   {id "" label "label" title "???" help nil}}]
 
   [:div.mb-4.relative
    [:div.leading-snug.overlay.flex.flex-row.justify-end {:id id}
-    [:div.popup.z-10.p-4.font-sans.text-normal.text-gray-600.border-1.bg-yellow-200.h-32.overflow-scroll.rounded.shadow-lg
-     {:class "w-2/3 sm:w-1/2"}
-     [:a.z-20.p-3.pt-0.pb-0.font-sans.text-normal.text-gray-600.bg-yellow-200.top-0.right-0.text-center.rounded
-      {:href "#"}
+    [:div.leading-snug
+     [:button.z-20.p-3.pt-0.pb-0.font-sans.text-normal.text-gray-600.absolute.bg-yellow-200.top-0.right-0.text-center.rounded
       "×"]
-     help
+     [:a.z-20.p-3.pt-0.pb-0.font-sans.text-normal.text-gray-600.absolute.bg-yellow-200.top-0.right-0.text-center.rounded
+      {:href ""}
+      "×"]
+     [:div.z-10.p-4.mt-6.font-sans.text-normal.text-gray-600.absolute.border-1.bg-yellow-200.h-32.overflow-scroll.top-0.right-0.rounded.shadow-lg
+      {:class "w-2/3 sm:w-1/2"} help]
      ]]
 
    [:label.font-bold {:for id} label]
@@ -63,7 +65,7 @@
      {:type        "text"
       :name        id
       :class       id
-      :placeholder title}]
+      :value title}]
     (when help
       [:a.m-2.p-1.btn-blue.text-white.font-sans.w-10.h-9.text-center.rounded-full.leading-snug.shadow-xl
        {:href (str "#" id)}
