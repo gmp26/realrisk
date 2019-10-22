@@ -71,6 +71,7 @@
                                        :label "Enter the DOI number of the paper"
                                        :title (or doi (:doi session) "Enter the DOI number of the paper")
                                        :help "The DOI is the globally unique Digital Object Identifier assigned to every paper."))
+          [:div.absolute.bottom-0.right-0.mr-1.mb-1 (w/bottom-nav request)]
           )]
 
        ])))
@@ -132,7 +133,6 @@
            [:div {:id (str "page-" id)}
             (content request)]]]]
         (when (> id 2) (results-box))
-        [:div.absolute.bottom-0.right-0.mr-1.mb-1 (w/bottom-nav request)]
         [:div.sm:hidden.absolute.bottom-0.left-0.w-32.block (winton-logo request)]
         ]]]
      (mobile-footer request)]))
