@@ -10,16 +10,18 @@
 
 (defn real-risk-logo
   [request]
-  [:img.flex-none {:alt "Real Risk!"
-                   :src "assets/rr-logo.svg"}])
+  [:img.flex-none.object-contain.max-w-xs
+   {:alt "Real Risk!"
+    :src "assets/rr-logo.svg"}])
 
 (defn winton-logo [request]
-  [:img.h-16.flex-none {:alt "U of Cambridge Winton Centre for Risk and Evidence Communication"
-                        :src "assets/Cambridge logo.svg"}])
+  [:img.h-16.flex-none.object-contain
+   {:alt "U of Cambridge Winton Centre for Risk and Evidence Communication"
+    :src "assets/Cambridge logo.svg"}])
 
 (defn header [request]
   [:header.z-50.bg-white.pl-20.pr-20.fixed.w-full.flex.flex-wrap.items-center.justify-between.border-b-2.border-blue-500
-   {:style {:min-height "3rem"}}
+   #_{:style {:min-height "3rem"}}
    (real-risk-logo request)
    [:section.hidden.sm:block.mt-3.mb-3
     (winton-logo request)]
@@ -70,7 +72,7 @@
                                        ))
           (w/text-input (assoc request :id "doi"
                                        :label "Enter the DOI number of the paper"
-                                       :title (or doi (:doi session) )
+                                       :title (or doi (:doi session))
                                        :help "The DOI is the globally unique Digital Object Identifier assigned to every paper."))
           [:div.absolute.bottom-0.right-0.mr-1.mb-2.font-sans (w/bottom-nav request)]
           )]])))
@@ -102,11 +104,11 @@
           [:div.absolute.bottom-0.right-0.mr-1.mb-2.font-sans (w/bottom-nav request)]
           )]]))
   #_[:main.mt-6
-   [:div.font-serif.text-xl
-    (w/icon-text "people" "Which group or population is studied in this paper?")
-    [:form.mt-6
-     (w/text-input {:id   "population" :title "population"
-                    :help "Enter a short description, e.g.'men', or 'women over 50'"})]]])
+     [:div.font-serif.text-xl
+      (w/icon-text "people" "Which group or population is studied in this paper?")
+      [:form.mt-6
+       (w/text-input {:id   "population" :title "population"
+                      :help "Enter a short description, e.g.'men', or 'women over 50'"})]]])
 
 (defn page4
   [request]
@@ -208,7 +210,7 @@
     (-> (coast/redirect-to (keyword (str "p" (if back back (if next next 1)))))
 
         (dissoc :session                                    ;nil                                 ;(if (= 1 back) nil session)
-               )
+                )
         (update :session (fn [old] {:paper-title (if (contains? params :paper-title)
                                                    (:paper-title params)
                                                    (:paper-title old))
