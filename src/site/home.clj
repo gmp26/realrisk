@@ -21,7 +21,7 @@
 
 (defn header [request]
   [:header.z-50.bg-white.pl-20.pr-20.fixed.w-full.flex.flex-wrap.items-center.justify-between.border-b-2.border-blue-500
-   #_{:style {:min-height "3rem"}}
+   {:style {:min-height "3rem"}}
    (real-risk-logo request)
    [:section.hidden.sm:block.mt-3.mb-3
     (winton-logo request)]
@@ -74,7 +74,7 @@
                                        :label "Enter the DOI number of the paper"
                                        :title (or doi (:doi session))
                                        :help "The DOI is the globally unique Digital Object Identifier assigned to every paper."))
-          [:div.absolute.bottom-0.right-0.mr-1.mb-2.font-sans (w/bottom-nav request)]
+          ;[:div.absolute.bottom-0.right-0.mr-1.mb-2.font-sans (w/bottom-nav request)]
           )]])))
 
 (defn page3
@@ -90,19 +90,18 @@
         [:p "request params " params]
         [:p "session params " sess]
         (w/icon-text "docs" "Which research paper are you writing about?")
-        (coast/form-for
-          :routes/saver
-          (w/text-input (assoc request :id "paper-title"
-                                       :label "Research paper title"
-                                       :title (or paper-title (:paper-title session) "Research paper title")
-                                       :help "Please enter the full research paper title. This text goes on and on and on."
-                                       ))
-          (w/text-input (assoc request :id "doi"
-                                       :label "Enter the DOI number of the paper"
-                                       :title (or doi (:doi session) "Enter the DOI number of the paper")
-                                       :help "The DOI is the globally unique Digital Object Identifier assigned to every paper."))
-          [:div.absolute.bottom-0.right-0.mr-1.mb-2.font-sans (w/bottom-nav request)]
-          )]]))
+
+        (w/text-input (assoc request :id "paper-title"
+                                     :label "Research paper title"
+                                     :title (or paper-title (:paper-title session) "Research paper title")
+                                     :help "Please enter the full research paper title. This text goes on and on and on."
+                                     ))
+        (w/text-input (assoc request :id "doi"
+                                     :label "Enter the DOI number of the paper"
+                                     :title (or doi (:doi session) "Enter the DOI number of the paper")
+                                     :help "The DOI is the globally unique Digital Object Identifier assigned to every paper."))
+        ;[:div.absolute.bottom-0.right-0.mr-1.mb-2.font-sans (w/bottom-nav request)]
+        ]]))
   #_[:main.mt-6
      [:div.font-serif.text-xl
       (w/icon-text "people" "Which group or population is studied in this paper?")
@@ -146,22 +145,24 @@
          id      :page-id
          content :page-content} request]
     [:main.h-screen.block {:role "main"}
-     [:div.text-gray-700.text-xl
-      (header request)
-      [:section.m-1.bg-dblue-100.h-screen {:id (str "page" id)}
-       [:div.h-full.pt-16.sm:pt-32
-        [:div.flex.flex-col.w-full.sm:w-auto.sm:flex-row.sm:h-full
-         [:div {:key 1 :class (str "relative flex flex-col justify-between sm:px-20 "
-                                   (if (> id 2) ":sm.ml-auto :sm.w-2/3" "w-full"))}
-          [:section {:style {:overflow-y "scroll"}}
-           [:h1.text-2xl.sm:text-4xl.font-semibold.border-solid title]
-           [:main.text-base.sm:text-lg.leading-normal.sm:leading-loose.mb-10.font-serif
-            [:div {:id (str "page-" id)}
-             (content request)]]]]
-         (when (> id 2) (results-box))
-         [:div.sm:hidden.absolute.bottom-0.left-0.w-32.block (winton-logo request)]
-         ]]]
-      (mobile-footer request)]]))
+     (coast/form-for
+       :routes/saver
+       [:div.text-gray-700.text-xl
+        (header request)
+        [:section.m-1.bg-dblue-100.h-screen {:id (str "page" id)}
+         [:div.h-full.pt-16.sm:pt-32
+          [:div.flex.flex-col.w-full.sm:w-auto.sm:flex-row.sm:h-full
+           [:div {:key 1 :class (str "relative flex flex-col justify-between sm:px-20 "
+                                     (if (> id 2) ":sm.ml-auto :sm.w-2/3" "w-full"))}
+            [:section {:style {:overflow-y "scroll"}}
+             [:h1.text-2xl.sm:text-4xl.font-semibold.border-solid title]
+             [:main.text-base.sm:text-lg.leading-normal.sm:leading-loose.mb-10.font-serif
+              [:div {:id (str "page-" id)}
+               (content request)]]]]
+           (when (> id 2) (results-box))
+           [:div.sm:hidden.absolute.bottom-0.left-0.w-32.block (winton-logo request)]
+           ]]]
+        (mobile-footer request)])]))
 
 (defn p1 [request]
   (partial-page (assoc request :page-id 1 :page-title "Getting started" :page-content page1))
@@ -203,25 +204,25 @@
 (defn saver
   [{:keys [params session] :as request}]
 
-  (let [{:keys [back next]} params]
+  (let [{:keys [back next reset]} params
+        page-id (or back next reset)]
     (println "home.saver::: page saved: " (:page-id request) (or back next) (not= 1 back))
 
-    (pprint (coast/redirect-to (keyword (str "p" (if back back (if next next 1))))))
-    (-> (coast/redirect-to (keyword (str "p" (if back back (if next next 1)))))
-
-        (dissoc :session                                    ;nil                                 ;(if (= 1 back) nil session)
-                )
-        (update :session (fn [old] {:paper-title (if (contains? params :paper-title)
+    (pprint (coast/redirect-to (keyword (str "p" page-id))))
+    (-> (coast/redirect-to (keyword (str "p" page-id)))
+      (update :session (fn [old] (if (= 1 page-id)
+                                   nil
+                                   {:paper-title (if (contains? params :paper-title)
                                                    (:paper-title params)
                                                    (:paper-title old))
                                     :doi         (if (contains? params :doi)
                                                    (:doi params)
-                                                   (:doi old))}))
-        ;(assoc :flash help-id)
-        ))
+                                                   (:doi old))})))
+      ;(assoc :flash help-id)
+      ))
   )
 
 (defn reset [request]
   (-> (response "Session deleted.")
-      (assoc :session nil)))
+    (assoc :session nil)))
 

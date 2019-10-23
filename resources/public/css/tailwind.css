@@ -646,6 +646,21 @@ video {
   background-color: #0056cd;
 }
 
+.btn-red {
+  background-color: #f56565;
+  color: #fff;
+  font-weight: 700;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  border-radius: 0.25rem;
+}
+
+.btn-red:hover {
+  background-color: #c53030;
+}
+
 .sr-only {
   position: absolute;
   width: 1px;
