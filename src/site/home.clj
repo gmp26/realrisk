@@ -47,14 +47,15 @@
      (w/icon-text "people" "information about the study group and your audience")]
     [:li.flex.flex-row.items-center
      (w/icon-text "percent" "knowledge of risk or benefit before and after the intervention")]]
-   [:a {:href "/p2"} [:button.btn-blue.text-xl.sm:text-3xl.font-sans.py-2.mb-10.mt-10 "Get the real risk >"]]
+   [:a {:href "/p2"} [:button.btn-blue.text-xl.sm:text-3xl.font-sans.py-2.mb-10.mt-10
+                      {:name "next"
+                       :value 2}
+                      "Get the real risk >"]]
    [:p "It should take less than 5 minutes to get a summary of the risks associated with any intervention"]])
 
 (defn page2
   [{:keys [params session] :as request}]
   (let [sess (dissoc session :ring.middleware.anti-forgery/anti-forgery-token)]
-    (println "page2+++ params" params)
-    (println "page2+++ session" sess)
     (let [{:keys [paper-title paper-title-help doi doi-help]} params]
 
       [:main.mt-6
@@ -63,25 +64,22 @@
         [:p "request params " params]
         [:p "session params " sess]
         (w/icon-text "docs" "Which research paper are you writing about?")
-        (coast/form-for
-          :routes/saver
-          (w/text-input (assoc request :id "paper-title"
-                                       :label "Research paper title"
-                                       :title (or paper-title (:paper-title session))
-                                       :help "Please enter the full research paper title. This text goes on and on and on."
-                                       ))
-          (w/text-input (assoc request :id "doi"
-                                       :label "Enter the DOI number of the paper"
-                                       :title (or doi (:doi session))
-                                       :help "The DOI is the globally unique Digital Object Identifier assigned to every paper."))
-          ;[:div.absolute.bottom-0.right-0.mr-1.mb-2.font-sans (w/bottom-nav request)]
-          )]])))
+
+        (w/text-input (assoc request :id "paper-title"
+                                     :label "Research paper title"
+                                     :title (or paper-title (:paper-title session))
+                                     :help "Please enter the full research paper title. This text goes on and on and on."
+                                     ))
+        (w/text-input (assoc request :id "doi"
+                                     :label "Enter the DOI number of the paper"
+                                     :title (or doi (:doi session))
+                                     :help "The DOI is the globally unique Digital Object Identifier assigned to every paper."))
+        ;[:div.absolute.bottom-0.right-0.mr-1.mb-2.font-sans (w/bottom-nav request)]
+        ]])))
 
 (defn page3
   [{:keys [params session] :as request}]
   (let [sess (dissoc session :ring.middleware.anti-forgery/anti-forgery-token)]
-    (println "page2+++ params" params)
-    (println "page2+++ session" sess)
     (let [{:keys [paper-title paper-title-help doi doi-help]} params]
 
       [:main.mt-6
@@ -144,6 +142,10 @@
   (let [{title   :page-title
          id      :page-id
          content :page-content} request]
+    (println "page" id ": " title)
+    (println " session " (:session request))
+    (println " params " (:params request))
+
     [:main.h-screen.block {:role "main"}
      (coast/form-for
        :routes/saver
@@ -162,6 +164,7 @@
            (when (> id 2) (results-box))
            [:div.sm:hidden.absolute.bottom-0.left-0.w-32.block (winton-logo request)]
            ]]]
+        [:div.absolute.bottom-0.right-0.mr-1.mb-2.font-sans (w/bottom-nav request)]
         (mobile-footer request)])]))
 
 (defn p1 [request]
@@ -205,19 +208,18 @@
   [{:keys [params session] :as request}]
 
   (let [{:keys [back next reset]} params
-        page-id (or back next reset)]
-    (println "home.saver::: page saved: " (:page-id request) (or back next) (not= 1 back))
-
-    (pprint (coast/redirect-to (keyword (str "p" page-id))))
+        page-id (or back next reset 1)]
+    ;(pprint (coast/redirect-to (keyword (str "p" page-id))))
     (-> (coast/redirect-to (keyword (str "p" page-id)))
-      (update :session (fn [old] (if (= 1 page-id)
+      (update :session (fn [old] (if (= "1" (str page-id))
                                    nil
                                    {:paper-title (if (contains? params :paper-title)
                                                    (:paper-title params)
                                                    (:paper-title old))
                                     :doi         (if (contains? params :doi)
                                                    (:doi params)
-                                                   (:doi old))})))
+                                                   (:doi old))}
+                                   )))
       ;(assoc :flash help-id)
       ))
   )

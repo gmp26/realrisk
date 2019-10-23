@@ -11,9 +11,9 @@
       (let [response (handler request)]
         (if (vector? response)
           (-> (layout request response)
-              (h/html)
-              (#(str "<!DOCTYPE html>" %))                  ; Added in DOCTYPE in my fork of coast
-              (res/ok :html))
+            (h/html)
+            (#(str "<!DOCTYPE html>" %))                    ; Added in DOCTYPE in my fork of coast
+            (res/ok :html))
           response)))))
 
 (defn rum-layout [request body]
@@ -34,18 +34,25 @@
         components/layout
         (conj
           (into []
-                (map (fn [n]
-                       (let [pid (inc n)]
-                         [:get (str "/p" pid) (keyword (str "site.home/p" pid)) (keyword (str "p" pid))]))
-                     (range 9))))
+            (map (fn [n]
+                   (let [pid (inc n)]
+                     [:get (str "/p" pid) (keyword (str "site.home/p" pid)) (keyword (str "p" pid))]))
+              (range 9))))
         [:get "/" :site.home/p1 :home]
-
         [:post "/saver" :site.home/saver ::saver]
         ))
 
+
+
     (coast/api
       (coast/with-prefix "/api"
-                         [:get "/" :api.home/index]
-                         [:post "/" :api.home/index]
-                         ;[:post "/p/:pid" :api.home/page :p]
-                         ))))
+        [:get "/" :api.home/index]
+        [:post "/" :api.home/index]
+        ;[:post "/p/:pid" :api.home/page :p]
+        ))))
+
+#_(comment
+    ; from coast session docs...
+    [:get "/customers/build" :customer/build]
+    [:get "/customers/:customer-id" :customer/view]
+    [:post "/customers" :customer/create])

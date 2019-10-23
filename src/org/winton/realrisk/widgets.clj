@@ -15,6 +15,7 @@
   "Add a bottom paginator"
   [request]
   (let [id (:page-id request)]
+    (println "bottom nav page id" id)
     [:div                                 ;.flex-none
      (let [target 1]
        [:a {:href (str "/p" target)}
@@ -29,11 +30,11 @@
           :value target}
          "< back"]])
      (let [target (min (inc id) 9)]
-       [:a {:href (str "/p" target)}
-        [:button.btn-blue.sm:text-xl.px-10
-         {:name "next"
-          :value target}
-         "next >"]])]
+       
+       [:button.btn-blue.sm:text-xl.px-10
+        {:name  "next"
+         :value target}
+        "next >"])]
     ))
 
 (defn icon
