@@ -15,16 +15,22 @@
   "Add a bottom paginator"
   [request]
   (let [id (:page-id request)]
-    [:div.inline-flex.flex-none
+    [:div                                 ;.flex-none
+     (let [target 1]
+       [:a {:href (str "/p" target)}
+        [:button.btn-red.mr-1.sm:text-xl
+         {:name  "reset"
+          :value target}
+         "<< reset"]])
      (let [target (max (dec id) 1)]
        [:a {:href (str "/p" target)}
-        [:button.btn-blue.mr-1.sm:text-xl
+        [:button.btn-blue.mr-10.sm:text-xl
          {:name "back"
           :value target}
          "< back"]])
      (let [target (min (inc id) 9)]
        [:a {:href (str "/p" target)}
-        [:button.btn-blue.sm:text-xl
+        [:button.btn-blue.sm:text-xl.px-10
          {:name "next"
           :value target}
          "next >"]])]

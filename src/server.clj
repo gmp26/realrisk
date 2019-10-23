@@ -11,9 +11,11 @@
     (pprint req)
     (handler req)))
 
-(def app (coast/app {:routes routes/routes
-                     #_#_:session {:store (cookie-store {:key "X2345678MM76543U"})
-                               :cookie-attrs {:max-age 3600}}
+(def app (coast/app {:routes  routes/routes
+                     :session {:store        (cookie-store {:key "X2345678MM76543U"})
+                               :cookie-name "id"
+                               :cookie-attrs {:secure true
+                                              :httponly true}}
                      }))
 
 (defn -main [& [port]]

@@ -70,7 +70,7 @@
                                        ))
           (w/text-input (assoc request :id "doi"
                                        :label "Enter the DOI number of the paper"
-                                       :title (or doi (:doi session) )
+                                       :title (or doi (:doi session))
                                        :help "The DOI is the globally unique Digital Object Identifier assigned to every paper."))
           [:div.absolute.bottom-0.right-0.mr-1.mb-2.font-sans (w/bottom-nav request)]
           )]])))
@@ -102,11 +102,11 @@
           [:div.absolute.bottom-0.right-0.mr-1.mb-2.font-sans (w/bottom-nav request)]
           )]]))
   #_[:main.mt-6
-   [:div.font-serif.text-xl
-    (w/icon-text "people" "Which group or population is studied in this paper?")
-    [:form.mt-6
-     (w/text-input {:id   "population" :title "population"
-                    :help "Enter a short description, e.g.'men', or 'women over 50'"})]]])
+     [:div.font-serif.text-xl
+      (w/icon-text "people" "Which group or population is studied in this paper?")
+      [:form.mt-6
+       (w/text-input {:id   "population" :title "population"
+                      :help "Enter a short description, e.g.'men', or 'women over 50'"})]]])
 
 (defn page4
   [request]
@@ -150,7 +150,7 @@
        [:div.h-full.pt-16.sm:pt-32
         [:div.flex.flex-col.w-full.sm:w-auto.sm:flex-row.sm:h-full
          [:div {:key 1 :class (str "relative flex flex-col justify-between sm:px-20 "
-                                   (if (> id 2) ":sm.ml-auto :sm.w-2/3" "w-full"))}
+                                (if (> id 2) ":sm.ml-auto :sm.w-2/3" "w-full"))}
           [:section {:style {:overflow-y "scroll"}}
            [:h1.text-2xl.sm:text-4xl.font-semibold.border-solid title]
            [:main.text-base.sm:text-lg.leading-normal.sm:leading-loose.mb-10.font-serif
@@ -201,25 +201,25 @@
 (defn saver
   [{:keys [params session] :as request}]
 
-  (let [{:keys [back next]} params]
+  (let [{:keys [back next reset]} params
+        page-id (or back next reset)]
     (println "home.saver::: page saved: " (:page-id request) (or back next) (not= 1 back))
 
-    (pprint (coast/redirect-to (keyword (str "p" (if back back (if next next 1))))))
-    (-> (coast/redirect-to (keyword (str "p" (if back back (if next next 1)))))
-
-        (dissoc :session                                    ;nil                                 ;(if (= 1 back) nil session)
-               )
-        (update :session (fn [old] {:paper-title (if (contains? params :paper-title)
+    (pprint (coast/redirect-to (keyword (str "p" page-id))))
+    (-> (coast/redirect-to (keyword (str "p" page-id)))
+      (update :session (fn [old] (if (= 1 page-id)
+                                   nil
+                                   {:paper-title (if (contains? params :paper-title)
                                                    (:paper-title params)
                                                    (:paper-title old))
                                     :doi         (if (contains? params :doi)
                                                    (:doi params)
-                                                   (:doi old))}))
-        ;(assoc :flash help-id)
-        ))
+                                                   (:doi old))})))
+      ;(assoc :flash help-id)
+      ))
   )
 
 (defn reset [request]
   (-> (response "Session deleted.")
-      (assoc :session nil)))
+    (assoc :session nil)))
 

@@ -28,7 +28,6 @@
 
 (def routes
   (coast/routes
-    [:get "/" :site.home/reset]
     (coast/site
       (coast/with-layout
         components/layout
@@ -39,6 +38,7 @@
                          [:get (str "/p" pid) (keyword (str "site.home/p" pid)) (keyword (str "p" pid))]))
                      (range 9))))
 
+        [:get "/" :site.home/p1]
         [:post "/saver" :site.home/saver ::saver ]
         [:get "/p/:pid" :site.home/p]
 
