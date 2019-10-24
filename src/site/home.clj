@@ -33,11 +33,17 @@
   [:section.fixed.block.sm:hidden.mt-3.mb-3.h-16 (winton-logo request)])
 
 
+(def valid-form-keys [:paper-title :doi :population])
+
+(defn session-debug [{:keys [page-id params session] :as request}]
+  [:div.bg-red-100.border.border-red-400.text-red-700.px-4.py-3.rounded.relative
+   {:role "alert"}
+   [:p "page-id " page-id ", form keys:" (select-keys params valid-form-keys)]
+   [:p "session: " session]])
+
 (rum/defc page1
   [request]
   [:main.mt-3
-   [:p (pr-str (:paper-title (:params request)))]
-
    [:p "Real Risk helps you to communicate the risks and benefits of scientific research effectively."]
    [:p.mt-2 "To use this tool you need"]
    [:ul
@@ -48,10 +54,11 @@
     [:li.flex.flex-row.items-center
      (w/icon-text "percent" "knowledge of risk or benefit before and after the intervention")]]
    [:a {:href "/p2"} [:button.btn-blue.text-xl.sm:text-3xl.font-sans.py-2.mb-10.mt-10
-                      {:name "next"
+                      {:name  "next"
                        :value 2}
                       "Get the real risk >"]]
-   [:p "It should take less than 5 minutes to get a summary of the risks associated with any intervention"]])
+   [:p "It should take less than 5 minutes to get a summary of the risks associated with any intervention"]
+   ])
 
 (defn page2
   [{:keys [params session] :as request}]
@@ -60,52 +67,34 @@
 
       [:main.mt-6
        [:div.font-serif.text-xl
-        [:p "page-id " (:page-id request)]
-        [:p "request params " params]
-        [:p "session params " sess]
+
         (w/icon-text "docs" "Which research paper are you writing about?")
 
         (w/text-input (assoc request :id "paper-title"
                                      :label "Research paper title"
-                                     :title (or paper-title (:paper-title session))
                                      :help "Please enter the full research paper title. This text goes on and on and on."
+                                     :value (:paper-title session)
                                      ))
         (w/text-input (assoc request :id "doi"
                                      :label "Enter the DOI number of the paper"
-                                     :title (or doi (:doi session))
-                                     :help "The DOI is the globally unique Digital Object Identifier assigned to every paper."))
-        ;[:div.absolute.bottom-0.right-0.mr-1.mb-2.font-sans (w/bottom-nav request)]
+                                     :help "The DOI is the globally unique Digital Object Identifier assigned to every paper."
+                                     :value (:doi session)))
         ]])))
 
 (defn page3
   [{:keys [params session] :as request}]
   (let [sess (dissoc session :ring.middleware.anti-forgery/anti-forgery-token)]
     (let [{:keys [paper-title paper-title-help doi doi-help]} params]
-
       [:main.mt-6
        [:div.font-serif.text-xl
-        [:p "page-id " (:page-id request)]
-        [:p "request params " params]
-        [:p "session params " sess]
-        (w/icon-text "docs" "Which research paper are you writing about?")
-
-        (w/text-input (assoc request :id "paper-title"
-                                     :label "Research paper title"
-                                     :title (or paper-title (:paper-title session) "Research paper title")
-                                     :help "Please enter the full research paper title. This text goes on and on and on."
-                                     ))
-        (w/text-input (assoc request :id "doi"
-                                     :label "Enter the DOI number of the paper"
-                                     :title (or doi (:doi session) "Enter the DOI number of the paper")
-                                     :help "The DOI is the globally unique Digital Object Identifier assigned to every paper."))
-        ;[:div.absolute.bottom-0.right-0.mr-1.mb-2.font-sans (w/bottom-nav request)]
-        ]]))
-  #_[:main.mt-6
-     [:div.font-serif.text-xl
-      (w/icon-text "people" "Which group or population is studied in this paper?")
-      [:form.mt-6
-       (w/text-input {:id   "population" :title "population"
-                      :help "Enter a short description, e.g.'men', or 'women over 50'"})]]])
+        (w/icon-text "people" "Which group or population is studied in this paper?")
+        [:form.mt-6
+         (w/text-input {:id    "population"
+                        :label "population"
+                        :help  "Enter a short description, e.g.'men', or 'women over 50'"
+                        :value (:population session)
+                        })]]]))
+  )
 
 (defn page4
   [request]
@@ -142,11 +131,8 @@
   (let [{title   :page-title
          id      :page-id
          content :page-content} request]
-    (println "page" id ": " title)
-    (println " session " (:session request))
-    (println " params " (:params request))
-
     [:main.h-screen.block {:role "main"}
+     (session-debug request)
      (coast/form-for
        :routes/saver
        [:div.text-gray-700.text-xl
@@ -203,28 +189,27 @@
   (partial-page (assoc request :page-id 9 :page-title "Results" :page-content page9))
   )
 
+(defn update-session [old reset? params]
+  "If reset? then return a nil session else merge in valid new form values."
+  (if reset?
+    nil
+    (merge old (select-keys params valid-form-keys))
+    ))
 
 (defn saver
   [{:keys [params session] :as request}]
+  (println "saver session" session)
+  (println "saver params" params)
 
-  (let [{:keys [back next reset]} params
-        page-id (or back next reset 1)]
-    ;(pprint (coast/redirect-to (keyword (str "p" page-id))))
+  (let [{:keys [back next reset background]} params
+        page-id (or back next reset background 1)]
     (-> (coast/redirect-to (keyword (str "p" page-id)))
-      (update :session (fn [old] (if (= "1" (str page-id))
-                                   nil
-                                   {:paper-title (if (contains? params :paper-title)
-                                                   (:paper-title params)
-                                                   (:paper-title old))
-                                    :doi         (if (contains? params :doi)
-                                                   (:doi params)
-                                                   (:doi old))}
-                                   )))
-      ;(assoc :flash help-id)
-      ))
-  )
+        (assoc :session session)
+        (update :session (fn [old]
+                           (println "old session" old)
+                           (update-session old (= "1" (str page-id)) params))))))
 
 (defn reset [request]
-  (-> (response "Session deleted.")
-    (assoc :session nil)))
+    (-> (response "Session deleted.")
+        (assoc :session nil)))
 

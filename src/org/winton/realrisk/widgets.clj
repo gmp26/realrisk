@@ -16,25 +16,26 @@
   [request]
   (let [id (:page-id request)]
     (println "bottom nav page id" id)
-    [:div                                 ;.flex-none
+    [:div                                                   ;.flex-none
+
      (let [target 1]
-       [:a {:href (str "/p" target)}
-        [:button.btn-red.mr-1.sm:text-xl
-         {:name  "reset"
-          :value target}
-         "<< reset"]])
+       [:button.btn-red.mr-1.sm:text-xl
+        {:name  "reset"
+         :value target}
+        "<< reset"])
      (let [target (max (dec id) 1)]
-       [:a {:href (str "/p" target)}
-        [:button.btn-blue.mr-10.sm:text-xl
-         {:name "back"
-          :value target}
-         "< back"]])
+       [:button.btn-blue.mr-10.sm:text-xl
+        {:name  "back"
+         :value target}
+        "< back"])
      (let [target (min (inc id) 9)]
-       
        [:button.btn-blue.sm:text-xl.px-10
         {:name  "next"
          :value target}
-        "next >"])]
+        "next >"])
+     [:input {:type  "hidden"
+              :name  "background"
+              :value (min (inc id) 9)}]]
     ))
 
 (defn icon
@@ -50,9 +51,9 @@
    [:span.w-64.sm:w-full.inline-block.leading-snug.sm:leading-normal text]])
 
 (defn text-input
-  "A labelled (titled) text input with help button and help text"
-  [{:keys [id label title help]
-    :or   {id "" label "label" title "???" help nil}}]
+  "A labelled text input with help button and help text"
+  [{:keys [id label help value]
+    :or   {id "" label "label"  help nil value ""}}]
 
   [:div.mb-4.relative
    [:div.leading-snug.overlay.flex.flex-row.justify-end {:id id}
@@ -72,7 +73,7 @@
      {:type        "text"
       :name        id
       :class       id
-      :value title}]
+      :value       value}]
     (when help
       [:a.m-2.p-1.btn-blue.text-white.font-sans.w-10.h-9.text-center.rounded-full.leading-snug.shadow-xl
        {:href (str "#" id)}
