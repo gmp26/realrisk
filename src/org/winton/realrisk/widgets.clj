@@ -55,17 +55,15 @@
   [{:keys [id label help value]
     :or   {id "" label "label"  help nil value ""}}]
 
-  [:div.mb-4.relative
-   [:div.leading-snug.overlay.flex.flex-row.justify-end {:id id}
-    [:div.leading-snug
-     [:button.z-20.p-3.pt-0.pb-0.font-sans.text-normal.text-gray-600.absolute.bg-yellow-200.top-0.right-0.text-center.rounded
+  [:div.mt-4.overflow-y-hidden.h-32
+   [:div.relative.leading-snug.overlay.flex.flex-row.justify-end.h-0 {:id id}
+    [:a.leading-snug
+     {:href ""}
+     [:div.z-30.p-3.pt-0.pb-0.font-sans.text-normal.text-gray-600.absolute.bg-yellow-200.top-0.right-0.text-center.rounded
       "×"]
-     [:a.z-20.p-3.pt-0.pb-0.font-sans.text-normal.text-gray-600.absolute.bg-yellow-200.top-0.right-0.text-center.rounded
-      {:href ""}
-      "×"]
-     [:div.z-10.p-4.mt-6.font-sans.text-normal.text-gray-600.absolute.border-1.bg-yellow-200.h-32.overflow-scroll.top-0.right-0.rounded.shadow-lg
-      {:class "w-2/3 sm:w-1/2"} help]
-     ]]
+
+     [:div.z-20.p-4.mt-6.font-sans.text-normal.text-gray-600.absolute.border-1.bg-yellow-200.h-32.top-10.right-0.rounded.shadow-lg
+      {:class "w-2/3 sm:w-1/2 overflow-y-scroll"} help]]]
 
    [:label.font-bold {:for id} label]
    [:div.flex.flex-row.items-center

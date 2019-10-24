@@ -36,12 +36,12 @@
 (def valid-form-keys [:paper-title :doi :population])
 
 (defn session-debug [{:keys [page-id params session] :as request}]
-  [:div.bg-red-100.border.border-red-400.text-red-700.px-4.py-3.rounded.relative
+  [:div.bg-red-100.border.border-red-400.text-red-700.px-4.py-3.rounded.relative.float-left
    {:role "alert"}
    [:p "page-id " page-id ", form keys:" (select-keys params valid-form-keys)]
    [:p "session: " session]])
 
-(rum/defc page1
+(defn page1
   [request]
   [:main.mt-3
    [:p "Real Risk helps you to communicate the risks and benefits of scientific research effectively."]
@@ -62,24 +62,23 @@
 
 (defn page2
   [{:keys [params session] :as request}]
-  (let [sess (dissoc session :ring.middleware.anti-forgery/anti-forgery-token)]
-    (let [{:keys [paper-title paper-title-help doi doi-help]} params]
+  [:main.mt-6
+   [:div.font-serif.text-xl
+    (w/icon-text "docs" "Which research paper are you writing about?")
 
-      [:main.mt-6
-       [:div.font-serif.text-xl
-
-        (w/icon-text "docs" "Which research paper are you writing about?")
-
-        (w/text-input (assoc request :id "paper-title"
-                                     :label "Research paper title"
-                                     :help "Please enter the full research paper title. This text goes on and on and on."
-                                     :value (:paper-title session)
-                                     ))
-        (w/text-input (assoc request :id "doi"
-                                     :label "Enter the DOI number of the paper"
-                                     :help "The DOI is the globally unique Digital Object Identifier assigned to every paper."
-                                     :value (:doi session)))
-        ]])))
+    (w/text-input (assoc request :id "paper-title"
+                                 :label "Research paper title"
+                                 :help "Please enter the full research paper title. This text goes on and on and on.
+                                 Please enter the full research paper title. This text goes on and on and on.
+                                 Please enter the full research paper title. This text goes on and on and on.
+                                 Please enter the full research paper title. This text goes on and on and on."
+                                 :value (:paper-title session)
+                                 ))
+    (w/text-input (assoc request :id "doi"
+                                 :label "Enter the DOI number of the paper"
+                                 :help "The DOI is the globally unique Digital Object Identifier assigned to every paper."
+                                 :value (:doi session)))
+    ]])
 
 (defn page3
   [{:keys [params session] :as request}]
@@ -131,8 +130,7 @@
   (let [{title   :page-title
          id      :page-id
          content :page-content} request]
-    [:main.h-screen.block {:role "main"}
-     (session-debug request)
+    [:main.h-screen.fixed {:role "main"}
      (coast/form-for
        :routes/saver
        [:div.text-gray-700.text-xl
@@ -146,6 +144,7 @@
              [:h1.text-2xl.sm:text-4xl.font-semibold.border-solid title]
              [:main.text-base.sm:text-lg.leading-normal.sm:leading-loose.mb-10.font-serif
               [:div {:id (str "page-" id)}
+               (session-debug request)
                (content request)]]]]
            (when (> id 2) (results-box))
            [:div.sm:hidden.absolute.bottom-0.left-0.w-32.block (winton-logo request)]
