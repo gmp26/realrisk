@@ -1,4 +1,5 @@
 (ns org.winton.realrisk.app
+  "Shadow-cljs starter app. Not used but it works"
   (:require [rum.core :as rum]))
 
 (def foo :foo)
